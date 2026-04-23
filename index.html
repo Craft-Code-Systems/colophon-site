@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Colophon — just-enough documentation for small teams</title>
+<meta name="description" content="Colophon is a lightweight documentation methodology for solo developers and small teams. Five files, not fifty pages. Docs that live next to code." />
+
+<meta property="og:title" content="Colophon" />
+<meta property="og:description" content="Just-enough documentation for small teams. Five files, not fifty pages." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://usecolophon.dev" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #f6f1e4;
+    --paper-dark: #ebe3cf;
+    --ink: #1a1612;
+    --ink-soft: #3a342c;
+    --ink-faded: #8a7f6b;
+    --rubric: #9b2a1f;
+    --rubric-dark: #6b1c14;
+    --rule: #c9bfa5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Fraunces', Georgia, serif;
+    font-feature-settings: "ss01", "ss02", "liga", "onum";
+    font-variation-settings: "opsz" 20, "SOFT" 20;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+    font-size: 18px;
+    overflow-x: hidden;
+  }
+
+  /* Subtle paper grain */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    z-index: 1;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 0.08 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  }
+
+  .page {
+    position: relative;
+    z-index: 2;
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ───────── Top bar ───────── */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 28px 0 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+  }
+
+  .topbar .edition { color: var(--rubric); }
+
+  /* ───────── Hero ───────── */
+  .hero {
+    padding: 120px 0 80px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .hero-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rubric);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-mark::before,
+  .hero-mark::after {
+    content: "";
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--rubric);
+    opacity: 0.5;
+  }
+
+  h1.wordmark {
+    font-size: clamp(72px, 14vw, 168px);
+    font-weight: 400;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  h1.wordmark .ph {
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+    color: var(--rubric);
+  }
+
+  .tagline {
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 300;
+    font-variation-settings: "opsz" 48;
+    line-height: 1.3;
+    max-width: 620px;
+    color: var(--ink-soft);
+    margin-bottom: 40px;
+  }
+  .tagline em {
+    color: var(--rubric);
+    font-style: italic;
+  }
+
+  .lede {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: var(--ink-faded);
+    max-width: 560px;
+    line-height: 1.7;
+  }
+
+  /* ───────── Section common ───────── */
+  section {
+    padding: 88px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rubric);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::before {
+    content: "§";
+    color: var(--rubric);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 400;
+    font-variation-settings: "opsz" 72, "SOFT" 40;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 48px;
+    max-width: 640px;
+  }
+  h2 em {
+    font-style: italic;
+    color: var(--rubric);
+    font-variation-settings: "opsz" 72, "SOFT" 40, "WONK" 1;
+  }
+
+  /* ───────── Manifesto / Principles ───────── */
+  .principles {
+    counter-reset: principle;
+  }
+
+  .principle {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 32px;
+    padding: 28px 0;
+    border-top: 1px dashed var(--rule);
+    counter-increment: principle;
+  }
+  .principle:first-child { border-top: none; }
+
+  .principle-no {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 40px;
+    font-weight: 300;
+    font-variation-settings: "opsz" 72, "WONK" 1;
+    color: var(--rubric);
+    line-height: 1;
+  }
+  .principle-no::before {
+    content: counter(principle, upper-roman) ".";
+  }
+
+  .principle-body h3 {
+    font-size: 22px;
+    font-weight: 500;
+    font-variation-settings: "opsz" 36;
+    line-height: 1.25;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .principle-body p {
+    color: var(--ink-soft);
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 560px;
+  }
+
+  /* ───────── The Files ───────── */
+  .files-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .file-card {
+    background: var(--paper);
+    padding: 28px 24px;
+    transition: background 0.2s ease;
+  }
+  .file-card:hover { background: var(--paper-dark); }
+
+  .file-card .frole {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 400;
+    font-variation-settings: "opsz" 48, "SOFT" 40, "WONK" 1;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+  .file-card .fname {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--rubric);
+    margin-bottom: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .file-card .fdesc {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  /* ───────── Example Decision ───────── */
+  .example {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 40px 36px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.75;
+    position: relative;
+    overflow-x: auto;
+  }
+  .example::before {
+    content: "docs/adr/0003-svelte-for-pwa.md";
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 10px;
+    color: var(--ink-faded);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .example .md-h { color: #e8c87a; }
+  .example .md-meta { color: #8ab89b; }
+  .example .md-em { color: #e8b0a0; font-style: italic; }
+
+  /* ───────── Adoption / Change ───────── */
+  .twocol {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+  @media (max-width: 720px) {
+    .twocol { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .tcard {
+    background: var(--paper-dark);
+    padding: 32px 28px;
+    border-left: 3px solid var(--rubric);
+  }
+  .tcard h3 {
+    font-size: 22px;
+    font-weight: 500;
+    font-variation-settings: "opsz" 36, "SOFT" 40;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .tcard p {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .tcard p:last-child { margin-bottom: 0; }
+  .tcard a {
+    color: var(--rubric);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+  }
+  .tcard a:hover { color: var(--rubric-dark); }
+
+  /* ───────── CTA / GitHub ───────── */
+  .cta {
+    text-align: center;
+    padding: 100px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .cta h2 {
+    margin: 0 auto 24px;
+    text-align: center;
+  }
+
+  .cta-intro {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--ink);
+    transition: all 0.2s ease;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .btn-primary:hover {
+    background: var(--rubric);
+    border-color: var(--rubric);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+  }
+  .btn-secondary:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .btn svg { width: 16px; height: 16px; }
+
+  .quickstart {
+    margin-top: 48px;
+    display: inline-block;
+    background: var(--paper-dark);
+    padding: 16px 24px;
+    border-left: 3px solid var(--rubric);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--ink);
+    text-align: left;
+  }
+  .quickstart .prompt { color: var(--ink-faded); user-select: none; }
+
+  /* ───────── Footer colophon ───────── */
+  footer {
+    padding: 64px 0 80px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  @media (max-width: 600px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  .footer-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rubric);
+    margin-bottom: 12px;
+  }
+
+  footer p {
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  footer a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rubric);
+    text-underline-offset: 3px;
+  }
+  footer a:hover { color: var(--rubric); }
+
+  .meta-colophon {
+    font-style: italic;
+    font-variation-settings: "opsz" 20, "WONK" 1;
+  }
+
+  /* ───────── Reveal animation ───────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeIn 0.9s ease forwards;
+  }
+  .reveal:nth-child(1) { animation-delay: 0.0s; }
+  .reveal:nth-child(2) { animation-delay: 0.1s; }
+  .reveal:nth-child(3) { animation-delay: 0.2s; }
+  .reveal:nth-child(4) { animation-delay: 0.3s; }
+  @keyframes fadeIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Selection styling */
+  ::selection { background: var(--rubric); color: var(--paper); }
+
+  /* Mobile refinements */
+  @media (max-width: 600px) {
+    .page { padding: 0 24px; }
+    .hero { padding: 80px 0 60px; }
+    section { padding: 60px 0; }
+    .principle { grid-template-columns: 60px 1fr; gap: 20px; }
+    .principle-no { font-size: 32px; }
+    .example { padding: 28px 20px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="topbar">
+    <span>Colophon · v0.2</span>
+    <span class="edition">Second printing</span>
+  </div>
+
+  <!-- ───────── HERO ───────── -->
+  <header class="hero">
+    <div class="hero-mark reveal">a documentation methodology</div>
+    <h1 class="wordmark reveal">Col<span class="ph">o</span>phon</h1>
+    <p class="tagline reveal">
+      Just-enough documentation for solo developers and small teams.
+      <em>Five files, not fifty pages.</em>
+    </p>
+    <p class="lede reveal">
+      Phase documents belong to waterfall. Research docs, plans of approach,
+      requirements specs, design docs, test plans — written once, read
+      never. Colophon replaces them with five living files that stay near
+      the code, and grow with it.
+    </p>
+  </header>
+
+  <!-- ───────── MANIFESTO ───────── -->
+  <section id="principles">
+    <div class="section-label">The manifesto</div>
+    <h2>Five principles. <em>Read them once.</em></h2>
+
+    <div class="principles">
+      <div class="principle">
+        <div class="principle-no"></div>
+        <div class="principle-body">
+          <h3>Docs live next to code.</h3>
+          <p>In git, in markdown, reviewed in pull requests. Documentation
+          that lives elsewhere rots elsewhere.</p>
+        </div>
+      </div>
+
+      <div class="principle">
+        <div class="principle-no"></div>
+        <div class="principle-body">
+          <h3>Just-in-time, never upfront.</h3>
+          <p>Write when a decision is made, a bug threatens to repeat,
+          or someone will soon ask. Before that, you are guessing.</p>
+        </div>
+      </div>
+
+      <div class="principle">
+        <div class="principle-no"></div>
+        <div class="principle-body">
+          <h3>One document, one job.</h3>
+          <p>No mega-documents that try to be everything. Small files
+          with a single focus stay accurate; sprawling ones don't.</p>
+        </div>
+      </div>
+
+      <div class="principle">
+        <div class="principle-no"></div>
+        <div class="principle-body">
+          <h3>If nothing breaks when it's gone, don't write it.</h3>
+          <p>The reverse test. Documents that cost time to maintain and
+          solve no real problem are waste, no matter how professional they look.</p>
+        </div>
+      </div>
+
+      <div class="principle">
+        <div class="principle-no"></div>
+        <div class="principle-body">
+          <h3>Five files beat fifty pages.</h3>
+          <p>A Brief, a folder of Decisions, a Log, a Runbook, a
+          Changelog. Together they cover what waterfall tried to, with
+          a fraction of the drag.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── THE FIVE FILES ───────── -->
+  <section id="files">
+    <div class="section-label">The anatomy</div>
+    <h2>The five document types.</h2>
+
+    <div class="files-grid">
+      <div class="file-card">
+        <div class="frole">Brief</div>
+        <div class="fname">README.md</div>
+        <div class="fdesc">The project's one-page orientation. Why it exists, what it does, where to start.</div>
+      </div>
+      <div class="file-card">
+        <div class="frole">Decision</div>
+        <div class="fname">docs/adr/NNNN-*.md</div>
+        <div class="fdesc">One short file per significant design choice. Immutable once accepted.</div>
+      </div>
+      <div class="file-card">
+        <div class="frole">Log</div>
+        <div class="fname">docs/research-log.md</div>
+        <div class="fdesc">Dated, append-only notes from exploration. Rough by design.</div>
+      </div>
+      <div class="file-card">
+        <div class="frole">Runbook</div>
+        <div class="fname">docs/runbook.md</div>
+        <div class="fdesc">How to run, deploy, and unbreak this thing. The 3am-friendly file.</div>
+      </div>
+      <div class="file-card">
+        <div class="frole">Changelog</div>
+        <div class="fname">CHANGELOG.md</div>
+        <div class="fdesc">What changed and when. Written for humans, not diffs.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── EXAMPLE DECISION ───────── -->
+  <section id="example">
+    <div class="section-label">A specimen</div>
+    <h2>What a <em>Decision</em> looks like.</h2>
+
+    <pre class="example"><span class="md-h"># Decision 0003: SvelteKit for the PWA</span>
+
+<span class="md-meta">**Status:**</span> Accepted
+<span class="md-meta">**Date:**</span>   2026-11-05
+
+<span class="md-h">## Context</span>
+Frontend must be an installable PWA. Solo developer,
+fast iteration required. Options: React + Vite,
+Next.js, SvelteKit, SolidStart.
+
+<span class="md-h">## Decision</span>
+SvelteKit with adapter-static.
+
+<span class="md-h">## Considerations</span>
+<span class="md-em">Pro:</span> smaller bundle, less boilerplate, built-in PWA support.
+<span class="md-em">Con:</span> smaller ecosystem than React; may need to
+     switch adapter if SSR becomes necessary later.
+
+<span class="md-h">## Consequences</span>
+- All frontend code in SvelteKit.
+- svelte-check added to CI.
+- No React components to reuse from other projects.</pre>
+  </section>
+
+  <!-- ───────── ADOPTION & CHANGE ───────── -->
+  <section id="adoption">
+    <div class="section-label">In the wild</div>
+    <h2>Existing projects, and changing minds.</h2>
+
+    <div class="twocol">
+      <div class="tcard">
+        <h3>Adopt it in a project that already exists</h3>
+        <p>
+          Do not document the past. Colophon is adopted <em>forward</em>:
+          set up the skeleton, make the Brief current, and add new
+          Decisions as you make them. Within thirty days you will have
+          organically captured what matters.
+        </p>
+        <p>
+          <a href="https://github.com/Craft-Code-Systems/colophon/blob/main/docs/adoption.md">
+            The 30-minute bootstrap →
+          </a>
+        </p>
+      </div>
+
+      <div class="tcard">
+        <h3>When a structural choice changes</h3>
+        <p>
+          Decisions are immutable once accepted. If you change your
+          mind, write a new Decision that <em>supersedes</em> the old
+          one — keeping the full reasoning trail. Future-you will know
+          not just what was chosen, but why, and why it changed.
+        </p>
+        <p>
+          <a href="https://github.com/Craft-Code-Systems/colophon/blob/main/docs/adoption.md#when-a-structural-design-choice-changes">
+            Worked supersession example →
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── CTA ───────── -->
+  <section class="cta" id="start">
+    <div class="section-label" style="justify-content: center;">Begin</div>
+    <h2>Fork the template. <em>Start in minutes.</em></h2>
+    <p class="cta-intro">
+      The Colophon template repository is a working example of the
+      methodology — documenting itself in its own format. Fork it,
+      rename it, keep what fits.
+    </p>
+
+    <div class="cta-buttons">
+      <a class="btn btn-primary" href="https://github.com/Craft-Code-Systems/colophon" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11 11 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+        View on GitHub
+      </a>
+      <a class="btn btn-secondary" href="#principles">
+        Read the manifesto
+      </a>
+    </div>
+
+    <div class="quickstart">
+      <span class="prompt">$</span> gh repo create my-project --template Craft-Code-Systems/colophon
+    </div>
+  </section>
+
+  <!-- ───────── FOOTER COLOPHON ───────── -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-label">Colophon</div>
+        <p class="meta-colophon">
+          This page was set in <a href="https://fonts.google.com/specimen/Fraunces" target="_blank" rel="noopener">Fraunces</a>
+          and <a href="https://www.jetbrains.com/lp/mono/" target="_blank" rel="noopener">JetBrains&nbsp;Mono</a>,
+          hand-written in HTML and CSS, and served as a single static
+          file. It contains no trackers, no analytics, no build step.
+          Which is, more or less, the point.
+        </p>
+      </div>
+      <div>
+        <div class="footer-label">Made by</div>
+        <p>
+          An initiative by <a href="https://ccsys.nl" target="_blank" rel="noopener">Craft&nbsp;Code&nbsp;Systems</a>.
+          The methodology is released under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC&nbsp;BY&nbsp;4.0</a>;
+          the template repository under <a href="https://opensource.org/license/mit" target="_blank" rel="noopener">MIT</a>.
+          Use it, fork it, change it, teach it.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

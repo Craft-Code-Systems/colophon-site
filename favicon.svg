@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Colophon">
+  <title>Colophon</title>
+
+  <!-- Ink C: thick annulus with radial opening on the right.
+       Outer radius 78, inner radius 44 (stroke weight 34).
+       Terminals cut radially at ±32° from east. -->
+  <path
+    d="M 166.14 58.67
+       A 78 78 0 1 0 166.14 141.33
+       L 137.31 124.98
+       A 44 44 0 1 1 137.31 75.02
+       Z"
+    fill="#1a1612"/>
+
+  <!-- Red italic o, cradled in the C's hollow.
+       Outer ellipse 14×18 with inner counter 5×8.
+       Italic slant of 12°. -->
+  <g transform="translate(108 100) rotate(-12)">
+    <path
+      d="M 14 0
+         A 14 18 0 1 0 -14 0
+         A 14 18 0 1 0 14 0 Z
+         M 5 0
+         A 5 8 0 1 0 -5 0
+         A 5 8 0 1 0 5 0 Z"
+      fill="#9b2a1f"
+      fill-rule="evenodd"/>
+  </g>
+</svg>

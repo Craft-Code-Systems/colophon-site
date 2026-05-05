@@ -4,13 +4,32 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Colophon — just-enough documentation for small teams</title>
-<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 <meta name="description" content="Colophon is a lightweight documentation methodology for solo developers and small teams. Five files, not fifty pages. Docs that live next to code." />
 
+<!-- Favicons -->
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#9b2a1f" />
+
+<!-- Open Graph -->
 <meta property="og:title" content="Colophon" />
 <meta property="og:description" content="Just-enough documentation for small teams. Five files, not fifty pages." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://usecolophon.dev" />
+<meta property="og:image" content="https://usecolophon.dev/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Colophon — a documentation methodology" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Colophon" />
+<meta name="twitter:description" content="Just-enough documentation for small teams. Five files, not fifty pages." />
+<meta name="twitter:image" content="https://usecolophon.dev/og-image.png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -267,6 +286,64 @@
     color: var(--ink-soft);
   }
 
+  /* ───────── Optional Spec card ───────── */
+  .optional-card {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 28px;
+    padding: 24px 28px;
+    background: var(--paper);
+    border: 1px dashed var(--rule);
+    align-items: start;
+  }
+  @media (max-width: 600px) {
+    .optional-card {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 20px 22px;
+    }
+  }
+  .optional-card .opt-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faded);
+    padding-top: 8px;
+    border-top: 1px solid var(--rule);
+    width: fit-content;
+  }
+  .optional-card .opt-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .optional-card .opt-head .frole {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    font-variation-settings: "opsz" 36, "SOFT" 40, "WONK" 1;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .optional-card .opt-head .fname {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--rubric);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .optional-card .opt-desc {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 580px;
+  }
+
   /* ───────── Example Decision ───────── */
   .example {
     background: var(--ink);
@@ -291,6 +368,78 @@
   .example .md-h { color: #e8c87a; }
   .example .md-meta { color: #8ab89b; }
   .example .md-em { color: #e8b0a0; font-style: italic; }
+
+  /* ───────── Coverage table ───────── */
+  .coverage-intro {
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    max-width: 640px;
+    margin-bottom: 36px;
+  }
+  .coverage-table-wrap {
+    overflow-x: auto;
+    margin: 0 -8px;
+    padding: 0 8px;
+  }
+  .coverage-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    line-height: 1.5;
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 18;
+  }
+  .coverage-table thead th {
+    text-align: left;
+    padding: 12px 18px 10px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rubric);
+    font-weight: 500;
+    border-bottom: 1px solid var(--rubric);
+  }
+  .coverage-table thead th:last-child {
+    padding-right: 0;
+  }
+  .coverage-table tbody td {
+    padding: 14px 18px 14px 0;
+    border-bottom: 1px dashed var(--rule);
+    color: var(--ink-soft);
+    vertical-align: top;
+  }
+  .coverage-table tbody td:last-child {
+    padding-right: 0;
+    color: var(--ink);
+  }
+  .coverage-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .coverage-table em {
+    color: var(--rubric);
+    font-style: italic;
+    font-variation-settings: "opsz" 18, "WONK" 1;
+  }
+  .coverage-note {
+    margin-top: 36px;
+    padding: 20px 24px;
+    background: var(--paper-dark);
+    border-left: 3px solid var(--rubric);
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.6;
+    max-width: 700px;
+  }
+  .coverage-note strong {
+    color: var(--rubric);
+    font-weight: 500;
+  }
+  .coverage-note em {
+    font-style: italic;
+    color: var(--ink);
+  }
 
   /* ───────── Adoption / Change ───────── */
   .twocol {
@@ -480,8 +629,8 @@
 <div class="page">
 
   <div class="topbar">
-    <span>Colophon · v0.2</span>
-    <span class="edition">Second printing</span>
+    <span>Colophon · v0.3</span>
+    <span class="edition">Third printing</span>
   </div>
 
   <!-- ───────── HERO ───────── -->
@@ -563,7 +712,7 @@
       <div class="file-card">
         <div class="frole">Brief</div>
         <div class="fname">README.md</div>
-        <div class="fdesc">The project's one-page orientation. Why it exists, what it does, where to start.</div>
+        <div class="fdesc">The project's orientation document. Why it exists, scope, capabilities, roles, risks, status.</div>
       </div>
       <div class="file-card">
         <div class="frole">Decision</div>
@@ -584,6 +733,23 @@
         <div class="frole">Changelog</div>
         <div class="fname">CHANGELOG.md</div>
         <div class="fdesc">What changed and when. Written for humans, not diffs.</div>
+      </div>
+    </div>
+
+    <div class="optional-card">
+      <div class="opt-label">Optional</div>
+      <div class="opt-body">
+        <div class="opt-head">
+          <span class="frole">Spec</span>
+          <span class="fname">docs/spec.md</span>
+        </div>
+        <p class="opt-desc">
+          Detailed functional and non-functional requirements. Opt-in,
+          for projects that prototype many capabilities before
+          implementing them, or whose stakeholders formally require a
+          spec. Most projects do fine without one — capabilities sit
+          in the Brief, detail goes in the issue tracker.
+        </p>
       </div>
     </div>
   </section>
@@ -617,6 +783,53 @@ SvelteKit with adapter-static.
 - No React components to reuse from other projects.</pre>
   </section>
 
+  <!-- ───────── COVERAGE ───────── -->
+  <section id="coverage">
+    <div class="section-label">A place for everything</div>
+    <h2>Requirements, roles, planning — <em>they all have a home.</em></h2>
+
+    <p class="coverage-intro">
+      The Brief summarises and orients; Decisions capture trade-offs;
+      the issue tracker manages live work; the Runbook handles
+      operations. The optional Spec, when present, holds rich
+      requirements detail. The map below shows the same content from
+      two angles: <strong>traditional section</strong> for readers
+      used to project plans, <strong>in Colophon</strong> for everyone.
+    </p>
+
+    <div class="coverage-table-wrap">
+      <table class="coverage-table">
+        <thead>
+          <tr>
+            <th>Traditional section</th>
+            <th>In Colophon</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Purpose, scope, success criteria</td><td>Brief</td></tr>
+          <tr><td>Functional requirements (top-level)</td><td>Brief — <em>Capabilities</em></td></tr>
+          <tr><td>Functional requirements (detail)</td><td>Issue tracker — <em>or optional Spec</em></td></tr>
+          <tr><td>Non-functional baseline</td><td>Brief — <em>Non-functional baseline</em></td></tr>
+          <tr><td>Non-functional trade-offs</td><td>Decisions</td></tr>
+          <tr><td>Stakeholders, roles, responsibilities</td><td>Brief — <em>Stakeholders &amp; roles</em></td></tr>
+          <tr><td>Planning, milestones</td><td>Brief (high) → Issue tracker (detail)</td></tr>
+          <tr><td>Risks (short)</td><td>Brief — <em>Risks</em></td></tr>
+          <tr><td>Risks (large, with mitigation)</td><td>Decisions</td></tr>
+          <tr><td>Architecture, design rationale</td><td>Decisions</td></tr>
+          <tr><td>Test plan</td><td>Tests in code + a paragraph in the Brief</td></tr>
+          <tr><td>Deployment plan</td><td>Runbook</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="coverage-note">
+      <strong>The principle:</strong> Colophon documents what the
+      project <em>is</em>. The issue tracker manages what the project
+      <em>does next</em>. Mixing them produces documents that drift
+      and trackers that go stale.
+    </p>
+  </section>
+
   <!-- ───────── ADOPTION & CHANGE ───────── -->
   <section id="adoption">
     <div class="section-label">In the wild</div>
@@ -632,7 +845,7 @@ SvelteKit with adapter-static.
           organically captured what matters.
         </p>
         <p>
-          <a href="https://github.com/Craft-Code-Systems/colophon/blob/main/docs/adoption.md">
+          <a href="https://github.com/craft-code-systems/colophon/blob/main/docs/adoption.md">
             The 30-minute bootstrap →
           </a>
         </p>
@@ -647,7 +860,7 @@ SvelteKit with adapter-static.
           not just what was chosen, but why, and why it changed.
         </p>
         <p>
-          <a href="https://github.com/Craft-Code-Systems/colophon/blob/main/docs/adoption.md#when-a-structural-design-choice-changes">
+          <a href="https://github.com/craft-code-systems/colophon/blob/main/docs/adoption.md#when-a-structural-design-choice-changes">
             Worked supersession example →
           </a>
         </p>
@@ -666,7 +879,7 @@ SvelteKit with adapter-static.
     </p>
 
     <div class="cta-buttons">
-      <a class="btn btn-primary" href="https://github.com/Craft-Code-Systems/colophon" target="_blank" rel="noopener">
+      <a class="btn btn-primary" href="https://github.com/craft-code-systems/colophon" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11 11 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
         View on GitHub
       </a>
@@ -676,7 +889,7 @@ SvelteKit with adapter-static.
     </div>
 
     <div class="quickstart">
-      <span class="prompt">$</span> gh repo create my-project --template Craft-Code-Systems/colophon
+      <span class="prompt">$</span> gh repo create my-project --template ccsys/colophon
     </div>
   </section>
 

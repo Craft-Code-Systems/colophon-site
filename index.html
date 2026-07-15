@@ -1,924 +1,742 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Colophon — just-enough documentation for small teams</title>
-<meta name="description" content="Colophon is a lightweight documentation methodology for solo developers and small teams. Five files, not fifty pages. Docs that live next to code." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colophon — five files, not fifty pages</title>
+<meta name="description" content="Colophon is a lightweight documentation methodology. Five living files that sit next to the code and grow with it.">
 
-<!-- Favicons -->
-<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
-<link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png" />
-<link rel="shortcut icon" href="/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<link rel="manifest" href="/site.webmanifest" />
-<meta name="theme-color" content="#9b2a1f" />
-
-<!-- Open Graph -->
-<meta property="og:title" content="Colophon" />
-<meta property="og:description" content="Just-enough documentation for small teams. Five files, not fifty pages." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://usecolophon.dev" />
-<meta property="og:image" content="https://usecolophon.dev/og-image.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Colophon — a documentation methodology" />
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Colophon" />
-<meta name="twitter:description" content="Just-enough documentation for small teams. Five files, not fifty pages." />
-<meta name="twitter:image" content="https://usecolophon.dev/og-image.png" />
-
+<!-- ─────────────────────────────────────────────────────────────
+     FONTS · GDPR NOTE
+     Before deploying to production, self-host these three faces
+     (google-webfonts-helper or fontsource → ./fonts/*.woff2) and
+     replace the two <link> tags below with @font-face rules.
+     Loading from fonts.googleapis.com transmits visitor IPs to
+     Google — LG München I, 3 O 17493/20. The colophon at the foot
+     of this page claims "no third-party requests"; make it true.
+     ───────────────────────────────────────────────────────────── -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0,0;0,9..144,300..700,0,1;1,9..144,400,0,1&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-  :root {
-    --paper: #f6f1e4;
-    --paper-dark: #ebe3cf;
-    --ink: #1a1612;
-    --ink-soft: #3a342c;
-    --ink-faded: #8a7f6b;
-    --rubric: #9b2a1f;
-    --rubric-dark: #6b1c14;
-    --rule: #c9bfa5;
-  }
+/* ══════════════════════════════════════════════════════════════
+   COLOPHON — the site set as a book.
+   No JavaScript. No build step. One file.
+   ══════════════════════════════════════════════════════════════ */
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+:root{
+  --paper:      #FBF8F1;   /* book paper                */
+  --page:       #FFFEFA;   /* tipped-in specimen page   */
+  --ink:        #211D19;   /* text ink                  */
+  --graphite:   #6E665C;   /* secondary ink             */
+  --rubric:     #91231C;   /* red ink — rubrication     */
+  --rubric-dim: #B04A42;
+  --rule:       #E3DBCD;   /* hairlines                 */
+  --rule-dark:  #C9BFAE;
+  --shadow:     rgba(60, 45, 30, .10);
 
-  html { scroll-behavior: smooth; }
+  --serif-display: "Fraunces", Georgia, serif;
+  --serif-body:    "Newsreader", Georgia, serif;
+  --mono:          "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
 
-  body {
-    font-family: 'Fraunces', Georgia, serif;
-    font-feature-settings: "ss01", "ss02", "liga", "onum";
-    font-variation-settings: "opsz" 20, "SOFT" 20;
-    background: var(--paper);
-    color: var(--ink);
-    line-height: 1.55;
-    font-size: 18px;
-    overflow-x: hidden;
-  }
+  --measure: 66ch;
+}
 
-  /* Subtle paper grain */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.4;
-    z-index: 1;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.07 0 0 0 0.08 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
-  }
+*{ margin:0; padding:0; box-sizing:border-box; }
 
-  .page {
-    position: relative;
-    z-index: 2;
-    max-width: 840px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
 
-  /* ───────── Top bar ───────── */
-  .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 28px 0 0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-faded);
-  }
+body{
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif-body);
+  font-size: 1.155rem;
+  line-height: 1.68;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
 
-  .topbar .edition { color: var(--rubric); }
+::selection{ background: var(--rubric); color: var(--paper); }
 
-  /* ───────── Hero ───────── */
-  .hero {
-    padding: 120px 0 80px;
-    border-bottom: 1px solid var(--rule);
-    position: relative;
-  }
+a{ color: var(--rubric); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover{ color: var(--ink); }
+a:focus-visible, button:focus-visible{ outline: 2px solid var(--rubric); outline-offset: 3px; border-radius: 1px; }
 
-  .hero-mark {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--rubric);
-    margin-bottom: 32px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .hero-mark::before,
-  .hero-mark::after {
-    content: "";
-    flex: 1;
-    max-width: 60px;
-    height: 1px;
-    background: var(--rubric);
-    opacity: 0.5;
-  }
+code, pre, kbd{ font-family: var(--mono); }
 
-  h1.wordmark {
-    font-size: clamp(72px, 14vw, 168px);
-    font-weight: 400;
-    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
-    letter-spacing: -0.04em;
-    line-height: 0.9;
-    color: var(--ink);
-    margin-bottom: 24px;
-  }
+/* ── running head ───────────────────────────────────────────── */
+.running-head{
+  position: sticky; top: 0; z-index: 10;
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: .65rem clamp(1.25rem, 4vw, 3rem);
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--graphite);
+}
+.running-head b{ color: var(--ink); font-weight: 500; }
+.running-head a{ color: var(--graphite); text-decoration: none; }
+.running-head a:hover{ color: var(--rubric); }
+.running-head nav{ display:flex; gap: 1.4rem; }
+@media (max-width: 620px){ .running-head nav a:not(:last-child){ display:none; } }
 
-  h1.wordmark .ph {
-    font-style: italic;
-    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
-    color: var(--rubric);
-  }
+/* ── shared section shell ───────────────────────────────────── */
+.sheet{
+  max-width: calc(var(--measure) + 4rem);
+  margin: 0 auto;
+  padding: clamp(3.5rem, 8vw, 6.5rem) clamp(1.25rem, 4vw, 2rem);
+}
 
-  .tagline {
-    font-size: clamp(22px, 3vw, 30px);
-    font-weight: 300;
-    font-variation-settings: "opsz" 48;
-    line-height: 1.3;
-    max-width: 620px;
-    color: var(--ink-soft);
-    margin-bottom: 40px;
-  }
-  .tagline em {
-    color: var(--rubric);
-    font-style: italic;
-  }
+.chapter-mark{
+  font-family: var(--mono);
+  font-size: .74rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--rubric);
+  display: flex; align-items: center; gap: .9rem;
+  margin-bottom: 2.4rem;
+}
+.chapter-mark::after{ content:""; flex:1; height:1px; background: var(--rule-dark); }
 
-  .lede {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.05em;
-    color: var(--ink-faded);
-    max-width: 560px;
-    line-height: 1.7;
-  }
+h2{
+  font-family: var(--serif-display);
+  font-variation-settings: "opsz" 60, "SOFT" 0, "WONK" 0;
+  font-weight: 560;
+  font-size: clamp(1.85rem, 4vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -.01em;
+  margin-bottom: 1.4rem;
+}
 
-  /* ───────── Section common ───────── */
-  section {
-    padding: 88px 0;
-    border-bottom: 1px solid var(--rule);
-  }
+p + p{ margin-top: 1.1em; }
+.sheet > p, .sheet section p{ max-width: var(--measure); }
 
-  .section-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--rubric);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-label::before {
-    content: "§";
-    color: var(--rubric);
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: 18px;
-  }
+/* ── fleuron divider ────────────────────────────────────────── */
+.fleuron{
+  text-align: center;
+  color: var(--rubric);
+  font-size: 1.25rem;
+  padding: .5rem 0;
+  user-select: none;
+}
 
-  h2 {
-    font-size: clamp(32px, 5vw, 52px);
-    font-weight: 400;
-    font-variation-settings: "opsz" 72, "SOFT" 40;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    margin-bottom: 48px;
-    max-width: 640px;
-  }
-  h2 em {
-    font-style: italic;
-    color: var(--rubric);
-    font-variation-settings: "opsz" 72, "SOFT" 40, "WONK" 1;
-  }
+/* ══ TITLE PAGE ═════════════════════════════════════════════ */
+.title-page{
+  min-height: calc(92vh);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: clamp(3rem, 9vh, 6rem) 1.5rem 3.5rem;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+.tp-eyebrow{
+  font-family: var(--mono);
+  font-size: .78rem; letter-spacing: .34em; text-transform: uppercase;
+  color: var(--graphite);
+  margin-bottom: 2.6rem;
+}
+.tp-title{
+  font-family: var(--serif-display);
+  font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 1;
+  font-weight: 400;
+  font-size: clamp(4rem, 14vw, 9rem);
+  line-height: .95;
+  letter-spacing: -.015em;
+}
+.tp-title .initial{ color: var(--rubric); }
+.tp-rule{
+  width: 5.5rem; height: 2px; background: var(--rubric);
+  margin: 2.6rem 0 2.2rem;
+}
+.tp-sub{
+  font-family: var(--serif-display);
+  font-variation-settings: "opsz" 30, "SOFT" 0, "WONK" 0;
+  font-style: italic;
+  font-weight: 420;
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  color: var(--ink);
+}
+.tp-desc{
+  max-width: 46ch;
+  margin-top: 1.3rem;
+  color: var(--graphite);
+  font-size: 1.06rem;
+}
+.tp-cmd{
+  margin-top: 2.8rem;
+  display: inline-flex; align-items: center; gap: .8rem;
+  background: var(--ink); color: #EDE7DA;
+  font-family: var(--mono); font-size: .84rem;
+  padding: .85rem 1.3rem;
+  border-radius: 3px;
+  box-shadow: 0 10px 28px -12px var(--shadow), 0 2px 6px -2px var(--shadow);
+  max-width: 100%; overflow-x: auto; white-space: nowrap;
+}
+.tp-cmd .ps1{ color: var(--rubric-dim); user-select: none; }
+.tp-actions{ margin-top: 1.6rem; display: flex; gap: 2rem; font-family: var(--mono); font-size: .82rem; letter-spacing: .04em; }
+.tp-imprint{
+  position: absolute; bottom: 2rem; left: 0; right: 0;
+  font-family: var(--mono);
+  font-size: .7rem; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--rule-dark);
+}
+@media (max-height: 640px){ .tp-imprint{ display:none; } }
 
-  /* ───────── Manifesto / Principles ───────── */
-  .principles {
-    counter-reset: principle;
-  }
+/* ══ ARGUMENT (drop cap) ════════════════════════════════════ */
+.argument p:first-of-type::first-letter{
+  font-family: var(--serif-display);
+  font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 1;
+  float: left;
+  font-size: 4.6em; line-height: .82;
+  padding: .06em .12em 0 0;
+  color: var(--rubric);
+  font-weight: 480;
+}
+.argument em{ font-style: italic; }
 
-  .principle {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 32px;
-    padding: 28px 0;
-    border-top: 1px dashed var(--rule);
-    counter-increment: principle;
-  }
-  .principle:first-child { border-top: none; }
+/* ══ PRINCIPLES ═════════════════════════════════════════════ */
+.principles ol{ list-style: none; counter-reset: pr; max-width: var(--measure); }
+.principles li{
+  counter-increment: pr;
+  display: grid; grid-template-columns: 3.2rem 1fr; gap: 1.1rem;
+  padding: 1.35rem 0;
+  border-top: 1px solid var(--rule);
+}
+.principles li:last-child{ border-bottom: 1px solid var(--rule); }
+.principles li::before{
+  content: counter(pr, upper-roman);
+  font-family: var(--serif-display);
+  font-variation-settings: "opsz" 40;
+  font-size: 1.5rem; font-weight: 500;
+  color: var(--rubric);
+  line-height: 1.3;
+}
+.principles strong{
+  display: block;
+  font-family: var(--serif-display);
+  font-variation-settings: "opsz" 24;
+  font-weight: 560; font-size: 1.14rem;
+  margin-bottom: .2rem;
+}
+.principles li p{ color: var(--graphite); font-size: 1.03rem; line-height: 1.55; }
 
-  .principle-no {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: 40px;
-    font-weight: 300;
-    font-variation-settings: "opsz" 72, "WONK" 1;
-    color: var(--rubric);
-    line-height: 1;
-  }
-  .principle-no::before {
-    content: counter(principle, upper-roman) ".";
-  }
+/* ══ TABLE OF CONTENTS (anatomy) ════════════════════════════ */
+.toc{ max-width: var(--measure); }
+.toc-row{
+  display: flex; align-items: baseline; gap: .7rem;
+  padding: 1rem 0 .35rem;
+}
+.toc-file{
+  font-family: var(--mono); font-size: .9rem; font-weight: 500;
+  white-space: nowrap;
+}
+.toc-leader{
+  flex: 1; min-width: 2rem;
+  border-bottom: 2px dotted var(--rule-dark);
+  transform: translateY(-5px);
+}
+.toc-role{
+  font-family: var(--serif-display);
+  font-variation-settings: "opsz" 24;
+  font-weight: 600; font-size: 1.22rem;
+  color: var(--rubric);
+  white-space: nowrap;
+}
+.toc-role sup{
+  font-family: var(--mono); font-size: .62rem; font-weight: 400;
+  color: var(--graphite); letter-spacing: .08em;
+  margin-left: .45rem; vertical-align: super;
+}
+.toc-desc{
+  color: var(--graphite); font-size: 1.02rem; line-height: 1.55;
+  padding-bottom: .9rem; border-bottom: 1px solid var(--rule);
+  max-width: 58ch;
+}
+.toc-desc:last-child{ border-bottom: none; }
+@media (max-width: 540px){
+  .toc-row{ flex-wrap: wrap; }
+  .toc-leader{ display:none; }
+  .toc-role{ margin-left: auto; }
+}
 
-  .principle-body h3 {
-    font-size: 22px;
-    font-weight: 500;
-    font-variation-settings: "opsz" 36;
-    line-height: 1.25;
-    margin-bottom: 6px;
-    color: var(--ink);
-  }
+/* ══ SPECIMEN (tipped-in page) ══════════════════════════════ */
+.specimen-wrap{ background: linear-gradient(var(--paper), #F5F0E5 60%, var(--paper)); border-block: 1px solid var(--rule); }
+.specimen{
+  max-width: 44rem; margin: 0 auto;
+  background: var(--page);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  box-shadow: 0 24px 48px -24px var(--shadow), 0 4px 10px -4px var(--shadow);
+  padding: 0;
+  transform: rotate(-.35deg);
+}
+@media (prefers-reduced-motion: no-preference){
+  .specimen{ transition: transform .35s ease; }
+  .specimen:hover{ transform: rotate(0deg); }
+}
+.spec-head{
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: .68rem;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--graphite);
+  padding: 1.1rem 2.2rem .9rem;
+  border-bottom: 1px solid var(--rule);
+}
+.spec-body{ padding: 2rem 2.2rem 2.4rem; font-size: 1.02rem; }
+.spec-body h3{
+  font-family: var(--serif-display);
+  font-variation-settings: "opsz" 40;
+  font-weight: 560; font-size: 1.4rem; line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.spec-meta{
+  font-family: var(--mono); font-size: .8rem; line-height: 1.9;
+  color: var(--graphite);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1rem; margin-bottom: 1.3rem;
+}
+.spec-meta b{ color: var(--ink); font-weight: 500; }
+.spec-body h4{
+  font-family: var(--mono);
+  font-size: .72rem; font-weight: 500;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--rubric);
+  margin: 1.5rem 0 .5rem;
+}
+.spec-body p, .spec-body ul{ color: #3A342D; line-height: 1.62; }
+.spec-body ul{ padding-left: 1.2rem; margin-top: .3rem; }
+.spec-body li + li{ margin-top: .25rem; }
+.spec-folio{
+  text-align: center; font-family: var(--mono);
+  font-size: .7rem; color: var(--rule-dark);
+  padding-bottom: 1.2rem; letter-spacing: .3em;
+}
+.spec-caption{
+  max-width: 44rem; margin: 1.6rem auto 0;
+  text-align: center;
+  font-size: .96rem; font-style: italic; color: var(--graphite);
+}
 
-  .principle-body p {
-    color: var(--ink-soft);
-    font-size: 17px;
-    line-height: 1.6;
-    max-width: 560px;
-  }
+/* ══ COVERAGE TABLE ═════════════════════════════════════════ */
+.coverage{ overflow-x: auto; }
+.coverage table{
+  border-collapse: collapse; width: 100%;
+  max-width: var(--measure);
+  font-size: .99rem;
+}
+.coverage th{
+  font-family: var(--mono); font-size: .7rem; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--graphite);
+  text-align: left; padding: 0 1rem .6rem 0;
+  border-bottom: 2px solid var(--ink);
+}
+.coverage td{
+  padding: .62rem 1rem .62rem 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: baseline;
+}
+.coverage td:last-child{ color: var(--rubric); font-weight: 500; }
+.coverage td em{ color: var(--graphite); font-weight: 400; font-size: .92em; }
 
-  /* ───────── The Files ───────── */
-  .files-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2px;
-    background: var(--rule);
-    border: 1px solid var(--rule);
-  }
-  .file-card {
-    background: var(--paper);
-    padding: 28px 24px;
-    transition: background 0.2s ease;
-  }
-  .file-card:hover { background: var(--paper-dark); }
+/* ══ ADOPTION ═══════════════════════════════════════════════ */
+.adoption-grid{
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+  max-width: calc(var(--measure) + 6ch);
+}
+@media (max-width: 700px){ .adoption-grid{ grid-template-columns: 1fr; } }
+.adoption-grid h3{
+  font-family: var(--serif-display);
+  font-variation-settings: "opsz" 24;
+  font-weight: 560; font-size: 1.2rem;
+  margin-bottom: .9rem;
+}
+.steps{ list-style: none; counter-reset: st; }
+.steps li{
+  counter-increment: st;
+  position: relative;
+  padding: 0 0 1.05rem 2.3rem;
+  font-size: 1.01rem; color: #3A342D; line-height: 1.55;
+}
+.steps li::before{
+  content: counter(st);
+  position: absolute; left: 0; top: .1rem;
+  width: 1.5rem; height: 1.5rem;
+  border: 1px solid var(--rubric);
+  border-radius: 50%;
+  color: var(--rubric);
+  font-family: var(--mono); font-size: .74rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.steps li:not(:last-child)::after{
+  content:""; position: absolute; left: .74rem; top: 1.8rem; bottom: .1rem;
+  width: 1px; background: var(--rule-dark);
+}
+.trigger-list{ list-style: none; font-size: 1.01rem; }
+.trigger-list li{
+  padding: .7rem 0; border-bottom: 1px solid var(--rule);
+  color: #3A342D; line-height: 1.5;
+}
+.trigger-list li:first-child{ border-top: 1px solid var(--rule); }
+.trigger-list .arrow{ color: var(--rubric); font-family: var(--mono); padding: 0 .3rem; }
+.trigger-list b{ font-weight: 600; }
 
-  .file-card .frole {
-    font-family: 'Fraunces', serif;
-    font-size: 26px;
-    font-weight: 400;
-    font-variation-settings: "opsz" 48, "SOFT" 40, "WONK" 1;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-    margin-bottom: 4px;
-    line-height: 1.1;
-  }
-  .file-card .fname {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--rubric);
-    margin-bottom: 14px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  }
-  .file-card .fdesc {
-    font-size: 15px;
-    line-height: 1.5;
-    color: var(--ink-soft);
-  }
+/* ══ NOTES (FAQ) ════════════════════════════════════════════ */
+.notes details{
+  max-width: var(--measure);
+  border-top: 1px solid var(--rule);
+}
+.notes details:last-of-type{ border-bottom: 1px solid var(--rule); }
+.notes summary{
+  cursor: pointer;
+  list-style: none;
+  padding: 1.15rem 2rem 1.15rem 0;
+  font-family: var(--serif-display);
+  font-variation-settings: "opsz" 22;
+  font-weight: 540; font-size: 1.12rem;
+  position: relative;
+}
+.notes summary::-webkit-details-marker{ display:none; }
+.notes summary::after{
+  content:"+"; position:absolute; right:.2rem; top:50%;
+  transform: translateY(-52%);
+  color: var(--rubric); font-family: var(--mono); font-size: 1.15rem;
+}
+.notes details[open] summary::after{ content:"−"; }
+.notes details p{
+  padding: 0 0 1.3rem;
+  color: var(--graphite); font-size: 1.02rem; max-width: 60ch;
+}
 
-  /* ───────── Optional Spec card ───────── */
-  .optional-card {
-    margin-top: 24px;
-    display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: 28px;
-    padding: 24px 28px;
-    background: var(--paper);
-    border: 1px dashed var(--rule);
-    align-items: start;
-  }
-  @media (max-width: 600px) {
-    .optional-card {
-      grid-template-columns: 1fr;
-      gap: 12px;
-      padding: 20px 22px;
-    }
-  }
-  .optional-card .opt-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ink-faded);
-    padding-top: 8px;
-    border-top: 1px solid var(--rule);
-    width: fit-content;
-  }
-  .optional-card .opt-head {
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-    margin-bottom: 8px;
-    flex-wrap: wrap;
-  }
-  .optional-card .opt-head .frole {
-    font-family: 'Fraunces', serif;
-    font-size: 22px;
-    font-weight: 400;
-    font-variation-settings: "opsz" 36, "SOFT" 40, "WONK" 1;
-    color: var(--ink);
-    letter-spacing: -0.01em;
-  }
-  .optional-card .opt-head .fname {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--rubric);
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  }
-  .optional-card .opt-desc {
-    font-size: 14px;
-    line-height: 1.55;
-    color: var(--ink-soft);
-    margin: 0;
-    max-width: 580px;
-  }
-
-  /* ───────── Example Decision ───────── */
-  .example {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 40px 36px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    line-height: 1.75;
-    position: relative;
-    overflow-x: auto;
-  }
-  .example::before {
-    content: "docs/adr/0003-svelte-for-pwa.md";
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    font-size: 10px;
-    color: var(--ink-faded);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .example .md-h { color: #e8c87a; }
-  .example .md-meta { color: #8ab89b; }
-  .example .md-em { color: #e8b0a0; font-style: italic; }
-
-  /* ───────── Coverage table ───────── */
-  .coverage-intro {
-    font-size: 17px;
-    color: var(--ink-soft);
-    line-height: 1.65;
-    max-width: 640px;
-    margin-bottom: 36px;
-  }
-  .coverage-table-wrap {
-    overflow-x: auto;
-    margin: 0 -8px;
-    padding: 0 8px;
-  }
-  .coverage-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 15px;
-    line-height: 1.5;
-    font-family: 'Fraunces', Georgia, serif;
-    font-variation-settings: "opsz" 18;
-  }
-  .coverage-table thead th {
-    text-align: left;
-    padding: 12px 18px 10px 0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--rubric);
-    font-weight: 500;
-    border-bottom: 1px solid var(--rubric);
-  }
-  .coverage-table thead th:last-child {
-    padding-right: 0;
-  }
-  .coverage-table tbody td {
-    padding: 14px 18px 14px 0;
-    border-bottom: 1px dashed var(--rule);
-    color: var(--ink-soft);
-    vertical-align: top;
-  }
-  .coverage-table tbody td:last-child {
-    padding-right: 0;
-    color: var(--ink);
-  }
-  .coverage-table tbody tr:last-child td {
-    border-bottom: none;
-  }
-  .coverage-table em {
-    color: var(--rubric);
-    font-style: italic;
-    font-variation-settings: "opsz" 18, "WONK" 1;
-  }
-  .coverage-note {
-    margin-top: 36px;
-    padding: 20px 24px;
-    background: var(--paper-dark);
-    border-left: 3px solid var(--rubric);
-    font-size: 16px;
-    color: var(--ink);
-    line-height: 1.6;
-    max-width: 700px;
-  }
-  .coverage-note strong {
-    color: var(--rubric);
-    font-weight: 500;
-  }
-  .coverage-note em {
-    font-style: italic;
-    color: var(--ink);
-  }
-
-  /* ───────── Adoption / Change ───────── */
-  .twocol {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-  }
-  @media (max-width: 720px) {
-    .twocol { grid-template-columns: 1fr; gap: 40px; }
-  }
-
-  .tcard {
-    background: var(--paper-dark);
-    padding: 32px 28px;
-    border-left: 3px solid var(--rubric);
-  }
-  .tcard h3 {
-    font-size: 22px;
-    font-weight: 500;
-    font-variation-settings: "opsz" 36, "SOFT" 40;
-    margin-bottom: 12px;
-    line-height: 1.2;
-  }
-  .tcard p {
-    font-size: 15px;
-    color: var(--ink-soft);
-    line-height: 1.6;
-    margin-bottom: 14px;
-  }
-  .tcard p:last-child { margin-bottom: 0; }
-  .tcard a {
-    color: var(--rubric);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.04em;
-  }
-  .tcard a:hover { color: var(--rubric-dark); }
-
-  /* ───────── CTA / GitHub ───────── */
-  .cta {
-    text-align: center;
-    padding: 100px 0;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .cta h2 {
-    margin: 0 auto 24px;
-    text-align: center;
-  }
-
-  .cta-intro {
-    font-size: 18px;
-    color: var(--ink-soft);
-    max-width: 520px;
-    margin: 0 auto 40px;
-    line-height: 1.6;
-  }
-
-  .cta-buttons {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 28px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1px solid var(--ink);
-    transition: all 0.2s ease;
-  }
-  .btn-primary {
-    background: var(--ink);
-    color: var(--paper);
-  }
-  .btn-primary:hover {
-    background: var(--rubric);
-    border-color: var(--rubric);
-  }
-  .btn-secondary {
-    background: transparent;
-    color: var(--ink);
-  }
-  .btn-secondary:hover {
-    background: var(--ink);
-    color: var(--paper);
-  }
-
-  .btn svg { width: 16px; height: 16px; }
-
-  .quickstart {
-    margin-top: 48px;
-    display: inline-block;
-    background: var(--paper-dark);
-    padding: 16px 24px;
-    border-left: 3px solid var(--rubric);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--ink);
-    text-align: left;
-  }
-  .quickstart .prompt { color: var(--ink-faded); user-select: none; }
-
-  /* ───────── Footer colophon ───────── */
-  footer {
-    padding: 64px 0 80px;
-  }
-
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    font-size: 14px;
-    line-height: 1.7;
-  }
-  @media (max-width: 600px) {
-    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
-  }
-
-  .footer-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--rubric);
-    margin-bottom: 12px;
-  }
-
-  footer p {
-    color: var(--ink-soft);
-    font-size: 14px;
-    line-height: 1.7;
-  }
-  footer a {
-    color: var(--ink);
-    text-decoration: underline;
-    text-decoration-color: var(--rubric);
-    text-underline-offset: 3px;
-  }
-  footer a:hover { color: var(--rubric); }
-
-  .meta-colophon {
-    font-style: italic;
-    font-variation-settings: "opsz" 20, "WONK" 1;
-  }
-
-  /* ───────── Reveal animation ───────── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(12px);
-    animation: fadeIn 0.9s ease forwards;
-  }
-  .reveal:nth-child(1) { animation-delay: 0.0s; }
-  .reveal:nth-child(2) { animation-delay: 0.1s; }
-  .reveal:nth-child(3) { animation-delay: 0.2s; }
-  .reveal:nth-child(4) { animation-delay: 0.3s; }
-  @keyframes fadeIn {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Selection styling */
-  ::selection { background: var(--rubric); color: var(--paper); }
-
-  /* Mobile refinements */
-  @media (max-width: 600px) {
-    .page { padding: 0 24px; }
-    .hero { padding: 80px 0 60px; }
-    section { padding: 60px 0; }
-    .principle { grid-template-columns: 60px 1fr; gap: 20px; }
-    .principle-no { font-size: 32px; }
-    .example { padding: 28px 20px; font-size: 11px; }
-  }
+/* ══ THE COLOPHON (footer) ══════════════════════════════════ */
+.book-colophon{
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  padding: clamp(4rem, 9vw, 6.5rem) 1.5rem 4rem;
+}
+.book-colophon .fleuron{ margin-bottom: 2.2rem; font-size: 1.5rem; }
+.book-colophon h2{
+  font-variation-settings: "opsz" 60, "WONK" 1;
+  font-weight: 480;
+  margin-bottom: 2rem;
+}
+.book-colophon p{
+  max-width: 52ch; margin: 0 auto;
+  font-size: 1rem; color: var(--graphite); line-height: 1.75;
+}
+.book-colophon p + p{ margin-top: 1em; }
+.colophon-links{
+  margin-top: 2.4rem;
+  display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;
+  font-family: var(--mono); font-size: .8rem; letter-spacing: .05em;
+}
+.edition{
+  margin-top: 3rem;
+  font-family: var(--mono);
+  font-size: .7rem; letter-spacing: .32em; text-transform: uppercase;
+  color: var(--rule-dark);
+}
 </style>
 </head>
 <body>
 
-<div class="page">
+<!-- running head, like the header line of a book page -->
+<header class="running-head">
+  <b>Colophon</b>
+  <nav>
+    <a href="#principles">Principles</a>
+    <a href="#files">The files</a>
+    <a href="#adoption">Adoption</a>
+    <a href="https://github.com/Craft-Code-Systems/colophon">GitHub&nbsp;↗</a>
+  </nav>
+</header>
 
-  <div class="topbar">
-    <span>Colophon · v0.3</span>
-    <span class="edition">Third printing</span>
+<!-- ══ TITLE PAGE ══ -->
+<section class="title-page">
+  <p class="tp-eyebrow">A documentation methodology</p>
+  <h1 class="tp-title"><span class="initial">C</span>olophon</h1>
+  <div class="tp-rule" aria-hidden="true"></div>
+  <p class="tp-sub">Five files, not fifty pages.</p>
+  <p class="tp-desc">Colophon replaces phase documents — plan of approach, requirements
+  spec, design document, test plan — with five living files that sit next to the
+  code and grow with it.</p>
+  <pre class="tp-cmd"><span class="ps1">$</span> gh repo create my-project --template Craft-Code-Systems/colophon</pre>
+  <div class="tp-actions">
+    <a href="#files">Read the anatomy ↓</a>
+    <a href="https://github.com/Craft-Code-Systems/colophon">View the source ↗</a>
   </div>
+  <p class="tp-imprint">Craft Code Systems · MMXXVI</p>
+</section>
 
-  <!-- ───────── HERO ───────── -->
-  <header class="hero">
-    <div class="hero-mark reveal">a documentation methodology</div>
-    <h1 class="wordmark reveal">Col<span class="ph">o</span>phon</h1>
-    <p class="tagline reveal">
-      Just-enough documentation for solo developers and small teams.
-      <em>Five files, not fifty pages.</em>
-    </p>
-    <p class="lede reveal">
-      Phase documents belong to waterfall. Research docs, plans of approach,
-      requirements specs, design docs, test plans — written once, read
-      never. Colophon replaces them with five living files that stay near
-      the code, and grow with it.
-    </p>
-  </header>
+<!-- ══ THE ARGUMENT ══ -->
+<section class="sheet argument">
+  <p class="chapter-mark">The argument</p>
+  <p>Traditional project documentation is written when knowledge is lowest — at
+  the start — revised rarely, and read almost never. For solo developers and
+  small teams, the effort of producing it competes directly with the project
+  itself. The documents grow long; the code drifts away from them; six months
+  later nobody trusts either.</p>
+  <p>Colophon inverts the order. Documentation is written <em>just in time</em>:
+  when a decision is made, when a bug threatens to repeat, when a specific
+  reader needs the information. Each file has exactly one job, lives in git
+  next to the code it describes, and stays short enough to actually be read.</p>
+  <p>The name comes from bookmaking. A colophon is the brief note at the back
+  of a book recording how it was made — printer, typeface, paper, date. These
+  files are the colophon of a codebase.</p>
+</section>
 
-  <!-- ───────── MANIFESTO ───────── -->
-  <section id="principles">
-    <div class="section-label">The manifesto</div>
-    <h2>Five principles. <em>Read them once.</em></h2>
+<div class="fleuron" aria-hidden="true">❦</div>
 
-    <div class="principles">
-      <div class="principle">
-        <div class="principle-no"></div>
-        <div class="principle-body">
-          <h3>Docs live next to code.</h3>
-          <p>In git, in markdown, reviewed in pull requests. Documentation
-          that lives elsewhere rots elsewhere.</p>
-        </div>
-      </div>
-
-      <div class="principle">
-        <div class="principle-no"></div>
-        <div class="principle-body">
-          <h3>Just-in-time, never upfront.</h3>
-          <p>Write when a decision is made, a bug threatens to repeat,
-          or someone will soon ask. Before that, you are guessing.</p>
-        </div>
-      </div>
-
-      <div class="principle">
-        <div class="principle-no"></div>
-        <div class="principle-body">
-          <h3>One document, one job.</h3>
-          <p>No mega-documents that try to be everything. Small files
-          with a single focus stay accurate; sprawling ones don't.</p>
-        </div>
-      </div>
-
-      <div class="principle">
-        <div class="principle-no"></div>
-        <div class="principle-body">
-          <h3>If nothing breaks when it's gone, don't write it.</h3>
-          <p>The reverse test. Documents that cost time to maintain and
-          solve no real problem are waste, no matter how professional they look.</p>
-        </div>
-      </div>
-
-      <div class="principle">
-        <div class="principle-no"></div>
-        <div class="principle-body">
-          <h3>Five files beat fifty pages.</h3>
-          <p>A Brief, a folder of Decisions, a Log, a Runbook, a
-          Changelog. Together they cover what waterfall tried to, with
-          a fraction of the drag.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ───────── THE FIVE FILES ───────── -->
-  <section id="files">
-    <div class="section-label">The anatomy</div>
-    <h2>The five document types.</h2>
-
-    <div class="files-grid">
-      <div class="file-card">
-        <div class="frole">Brief</div>
-        <div class="fname">README.md</div>
-        <div class="fdesc">The project's orientation document. Why it exists, scope, capabilities, roles, risks, status.</div>
-      </div>
-      <div class="file-card">
-        <div class="frole">Decision</div>
-        <div class="fname">docs/adr/NNNN-*.md</div>
-        <div class="fdesc">One short file per significant design choice. Immutable once accepted.</div>
-      </div>
-      <div class="file-card">
-        <div class="frole">Log</div>
-        <div class="fname">docs/research-log.md</div>
-        <div class="fdesc">Dated, append-only notes from exploration. Rough by design.</div>
-      </div>
-      <div class="file-card">
-        <div class="frole">Runbook</div>
-        <div class="fname">docs/runbook.md</div>
-        <div class="fdesc">How to run, deploy, and unbreak this thing. The 3am-friendly file.</div>
-      </div>
-      <div class="file-card">
-        <div class="frole">Changelog</div>
-        <div class="fname">CHANGELOG.md</div>
-        <div class="fdesc">What changed and when. Written for humans, not diffs.</div>
-      </div>
-    </div>
-
-    <div class="optional-card">
-      <div class="opt-label">Optional</div>
-      <div class="opt-body">
-        <div class="opt-head">
-          <span class="frole">Spec</span>
-          <span class="fname">docs/spec.md</span>
-        </div>
-        <p class="opt-desc">
-          Detailed functional and non-functional requirements. Opt-in,
-          for projects that prototype many capabilities before
-          implementing them, or whose stakeholders formally require a
-          spec. Most projects do fine without one — capabilities sit
-          in the Brief, detail goes in the issue tracker.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ───────── EXAMPLE DECISION ───────── -->
-  <section id="example">
-    <div class="section-label">A specimen</div>
-    <h2>What a <em>Decision</em> looks like.</h2>
-
-    <pre class="example"><span class="md-h"># Decision 0003: SvelteKit for the PWA</span>
-
-<span class="md-meta">**Status:**</span> Accepted
-<span class="md-meta">**Date:**</span>   2026-11-05
-
-<span class="md-h">## Context</span>
-Frontend must be an installable PWA. Solo developer,
-fast iteration required. Options: React + Vite,
-Next.js, SvelteKit, SolidStart.
-
-<span class="md-h">## Decision</span>
-SvelteKit with adapter-static.
-
-<span class="md-h">## Considerations</span>
-<span class="md-em">Pro:</span> smaller bundle, less boilerplate, built-in PWA support.
-<span class="md-em">Con:</span> smaller ecosystem than React; may need to
-     switch adapter if SSR becomes necessary later.
-
-<span class="md-h">## Consequences</span>
-- All frontend code in SvelteKit.
-- svelte-check added to CI.
-- No React components to reuse from other projects.</pre>
-  </section>
-
-  <!-- ───────── COVERAGE ───────── -->
-  <section id="coverage">
-    <div class="section-label">A place for everything</div>
-    <h2>Requirements, roles, planning — <em>they all have a home.</em></h2>
-
-    <p class="coverage-intro">
-      The Brief summarises and orients; Decisions capture trade-offs;
-      the issue tracker manages live work; the Runbook handles
-      operations. The optional Spec, when present, holds rich
-      requirements detail. The map below shows the same content from
-      two angles: <strong>traditional section</strong> for readers
-      used to project plans, <strong>in Colophon</strong> for everyone.
-    </p>
-
-    <div class="coverage-table-wrap">
-      <table class="coverage-table">
-        <thead>
-          <tr>
-            <th>Traditional section</th>
-            <th>In Colophon</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Purpose, scope, success criteria</td><td>Brief</td></tr>
-          <tr><td>Functional requirements (top-level)</td><td>Brief — <em>Capabilities</em></td></tr>
-          <tr><td>Functional requirements (detail)</td><td>Issue tracker — <em>or optional Spec</em></td></tr>
-          <tr><td>Non-functional baseline</td><td>Brief — <em>Non-functional baseline</em></td></tr>
-          <tr><td>Non-functional trade-offs</td><td>Decisions</td></tr>
-          <tr><td>Stakeholders, roles, responsibilities</td><td>Brief — <em>Stakeholders &amp; roles</em></td></tr>
-          <tr><td>Planning, milestones</td><td>Brief (high) → Issue tracker (detail)</td></tr>
-          <tr><td>Risks (short)</td><td>Brief — <em>Risks</em></td></tr>
-          <tr><td>Risks (large, with mitigation)</td><td>Decisions</td></tr>
-          <tr><td>Architecture, design rationale</td><td>Decisions</td></tr>
-          <tr><td>Test plan</td><td>Tests in code + a paragraph in the Brief</td></tr>
-          <tr><td>Deployment plan</td><td>Runbook</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p class="coverage-note">
-      <strong>The principle:</strong> Colophon documents what the
-      project <em>is</em>. The issue tracker manages what the project
-      <em>does next</em>. Mixing them produces documents that drift
-      and trackers that go stale.
-    </p>
-  </section>
-
-  <!-- ───────── ADOPTION & CHANGE ───────── -->
-  <section id="adoption">
-    <div class="section-label">In the wild</div>
-    <h2>Existing projects, and changing minds.</h2>
-
-    <div class="twocol">
-      <div class="tcard">
-        <h3>Adopt it in a project that already exists</h3>
-        <p>
-          Do not document the past. Colophon is adopted <em>forward</em>:
-          set up the skeleton, make the Brief current, and add new
-          Decisions as you make them. Within thirty days you will have
-          organically captured what matters.
-        </p>
-        <p>
-          <a href="https://github.com/craft-code-systems/colophon/blob/main/docs/adoption.md">
-            The 30-minute bootstrap →
-          </a>
-        </p>
-      </div>
-
-      <div class="tcard">
-        <h3>When a structural choice changes</h3>
-        <p>
-          Decisions are immutable once accepted. If you change your
-          mind, write a new Decision that <em>supersedes</em> the old
-          one — keeping the full reasoning trail. Future-you will know
-          not just what was chosen, but why, and why it changed.
-        </p>
-        <p>
-          <a href="https://github.com/craft-code-systems/colophon/blob/main/docs/adoption.md#when-a-structural-design-choice-changes">
-            Worked supersession example →
-          </a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ───────── CTA ───────── -->
-  <section class="cta" id="start">
-    <div class="section-label" style="justify-content: center;">Begin</div>
-    <h2>Fork the template. <em>Start in minutes.</em></h2>
-    <p class="cta-intro">
-      The Colophon template repository is a working example of the
-      methodology — documenting itself in its own format. Fork it,
-      rename it, keep what fits.
-    </p>
-
-    <div class="cta-buttons">
-      <a class="btn btn-primary" href="https://github.com/craft-code-systems/colophon" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11 11 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
-        View on GitHub
-      </a>
-      <a class="btn btn-secondary" href="#principles">
-        Read the manifesto
-      </a>
-    </div>
-
-    <div class="quickstart">
-      <span class="prompt">$</span> gh repo create my-project --template ccsys/colophon
-    </div>
-  </section>
-
-  <!-- ───────── FOOTER COLOPHON ───────── -->
-  <footer>
-    <div class="footer-grid">
+<!-- ══ PRINCIPLES ══ -->
+<section class="sheet principles" id="principles">
+  <p class="chapter-mark">Five principles</p>
+  <h2>Small rules, strictly kept.</h2>
+  <ol>
+    <li>
       <div>
-        <div class="footer-label">Colophon</div>
-        <p class="meta-colophon">
-          This page was set in <a href="https://fonts.google.com/specimen/Fraunces" target="_blank" rel="noopener">Fraunces</a>
-          and <a href="https://www.jetbrains.com/lp/mono/" target="_blank" rel="noopener">JetBrains&nbsp;Mono</a>,
-          hand-written in HTML and CSS, and served as a single static
-          file. It contains no trackers, no analytics, no build step.
-          Which is, more or less, the point.
-        </p>
+        <strong>Docs live next to the code</strong>
+        <p>Markdown in the repository, versioned and reviewed like everything else. Clone the repo, get the docs.</p>
       </div>
+    </li>
+    <li>
       <div>
-        <div class="footer-label">Made by</div>
-        <p>
-          An initiative by <a href="https://ccsys.nl" target="_blank" rel="noopener">Craft&nbsp;Code&nbsp;Systems</a>.
-          The methodology is released under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC&nbsp;BY&nbsp;4.0</a>;
-          the template repository under <a href="https://opensource.org/license/mit" target="_blank" rel="noopener">MIT</a>.
-          Use it, fork it, change it, teach it.
-        </p>
+        <strong>Written just in time, not upfront</strong>
+        <p>A file is added or updated when a real need triggers it — never to fill a template slot.</p>
       </div>
-    </div>
-  </footer>
+    </li>
+    <li>
+      <div>
+        <strong>One file, one job</strong>
+        <p>Each document answers one question. Overlap is where documentation goes to rot.</p>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Decisions are immutable</strong>
+        <p>An accepted Decision is never edited. Changed your mind? Write a new one that supersedes it. The old reasoning stays as history.</p>
+      </div>
+    </li>
+    <li>
+      <div>
+        <strong>Minimal by default</strong>
+        <p>Five file types. No more will be added. What the five cannot hold belongs in the issue tracker, a wiki, or another methodology.</p>
+      </div>
+    </li>
+  </ol>
+</section>
 
-</div>
+<!-- ══ TABLE OF CONTENTS ══ -->
+<section class="sheet" id="files">
+  <p class="chapter-mark">Table of contents</p>
+  <h2>Five files. One optional sixth.</h2>
+  <div class="toc">
+
+    <div class="toc-row">
+      <span class="toc-file">README.md</span>
+      <span class="toc-leader" aria-hidden="true"></span>
+      <span class="toc-role">The Brief</span>
+    </div>
+    <p class="toc-desc">Why the project exists, what is in and out of scope, how to run it,
+    where it stands. One or two screens. Always current.</p>
+
+    <div class="toc-row">
+      <span class="toc-file">docs/adr/NNNN-*.md</span>
+      <span class="toc-leader" aria-hidden="true"></span>
+      <span class="toc-role">Decisions</span>
+    </div>
+    <p class="toc-desc">One short file per design choice: context, decision, trade-offs,
+    consequences. The memory of the project — why things are the way they are.</p>
+
+    <div class="toc-row">
+      <span class="toc-file">docs/research-log.md</span>
+      <span class="toc-leader" aria-hidden="true"></span>
+      <span class="toc-role">The Log</span>
+    </div>
+    <p class="toc-desc">Append-only, dated notes from exploration. Rough by design. When a
+    note crystallises into a real choice, it gets promoted to a Decision.</p>
+
+    <div class="toc-row">
+      <span class="toc-file">docs/runbook.md</span>
+      <span class="toc-leader" aria-hidden="true"></span>
+      <span class="toc-role">The Runbook</span>
+    </div>
+    <p class="toc-desc">How to run, deploy, and unbreak the project. Written in a form
+    that is useful at three in the morning.</p>
+
+    <div class="toc-row">
+      <span class="toc-file">CHANGELOG.md</span>
+      <span class="toc-leader" aria-hidden="true"></span>
+      <span class="toc-role">The Changelog</span>
+    </div>
+    <p class="toc-desc">What shipped, when, following
+    <a href="https://keepachangelog.com">Keep&nbsp;a&nbsp;Changelog</a>. The
+    project's public history in human sentences.</p>
+
+    <div class="toc-row">
+      <span class="toc-file">docs/spec.md</span>
+      <span class="toc-leader" aria-hidden="true"></span>
+      <span class="toc-role">The Spec <sup>optional</sup></span>
+    </div>
+    <p class="toc-desc">Rich functional and non-functional requirements, opt-in only —
+    for prototypes exploring many capabilities, or when a stakeholder formally
+    requires one. Most projects never need it, and that is deliberate.</p>
+
+  </div>
+</section>
+
+<!-- ══ SPECIMEN ══ -->
+<section class="specimen-wrap">
+  <div class="sheet">
+    <p class="chapter-mark">Specimen</p>
+    <article class="specimen" aria-label="Example Decision file">
+      <div class="spec-head">
+        <span>docs/adr/0007-sqlite-over-postgres.md</span>
+        <span>Decision</span>
+      </div>
+      <div class="spec-body">
+        <h3>Decision 0007: SQLite over Postgres for v1</h3>
+        <p class="spec-meta">
+          <b>Status:</b> Accepted<br>
+          <b>Date:</b> 2026-05-14
+        </p>
+        <h4>Context</h4>
+        <p>v1 targets a few hundred users on a single VPS. Postgres adds an
+        operational dependency — backups, upgrades, connection pooling — that
+        buys nothing at this scale.</p>
+        <h4>Decision</h4>
+        <p>SQLite in WAL mode, single file, backed up with Litestream.</p>
+        <h4>Considerations</h4>
+        <p><b>Pro:</b> zero-ops, trivially fast at this scale, one-file backups.<br>
+        <b>Con:</b> a future migration if write concurrency grows. Rejected:
+        managed Postgres — cost and coupling without present need.</p>
+        <h4>Consequences</h4>
+        <ul>
+          <li>ORM layer kept database-agnostic.</li>
+          <li>Migration threshold written down: &gt;50 writes/sec sustained.</li>
+        </ul>
+      </div>
+      <p class="spec-folio">— 7 —</p>
+    </article>
+    <p class="spec-caption">A complete Decision. Roughly one screen. Written the day
+    the choice was made — and never edited afterwards.</p>
+  </div>
+</section>
+
+<!-- ══ COVERAGE ══ -->
+<section class="sheet coverage">
+  <p class="chapter-mark">A place for everything</p>
+  <h2>Where the old sections go.</h2>
+  <p style="margin-bottom:2rem; color:var(--graphite);">Colophon documents what the
+  project <em>is</em>; the issue tracker manages what the project <em>does next</em>.
+  Every section of a traditional project plan has a home:</p>
+  <table>
+    <thead><tr><th>Traditional section</th><th>In Colophon</th></tr></thead>
+    <tbody>
+      <tr><td>Purpose, scope, success criteria</td><td>Brief</td></tr>
+      <tr><td>Functional requirements <em>(top level)</em></td><td>Brief — Capabilities</td></tr>
+      <tr><td>Functional requirements <em>(detail)</em></td><td>Issue tracker, <em>or optional Spec</em></td></tr>
+      <tr><td>Non-functional baseline</td><td>Brief</td></tr>
+      <tr><td>Non-functional trade-offs</td><td>Decisions</td></tr>
+      <tr><td>Stakeholders, roles</td><td>Brief</td></tr>
+      <tr><td>Planning &amp; milestones</td><td>Brief <em>(high)</em> → tracker <em>(detail)</em></td></tr>
+      <tr><td>Risks</td><td>Brief <em>(short)</em> → Decisions <em>(analysed)</em></td></tr>
+      <tr><td>Architecture rationale</td><td>Decisions</td></tr>
+      <tr><td>Test plan</td><td>Tests in code + a paragraph in the Brief or a Decision</td></tr>
+      <tr><td>Deployment plan</td><td>Runbook</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="fleuron" aria-hidden="true">❦</div>
+
+<!-- ══ ADOPTION ══ -->
+<section class="sheet" id="adoption">
+  <p class="chapter-mark">Adoption</p>
+  <h2>Thirty minutes, then thirty days.</h2>
+  <div class="adoption-grid">
+    <div>
+      <h3>The 30-minute bootstrap</h3>
+      <ol class="steps">
+        <li>Triage the existing README: why, scope, how to run, status. Remove cruft.</li>
+        <li>Add the skeleton — <code>docs/adr/</code>, <code>research-log.md</code>, <code>runbook.md</code>, <code>CHANGELOG.md</code>.</li>
+        <li>Write Decision 0001: <em>adopting Colophon</em>. Meta, but your first working example.</li>
+        <li>Snapshot pre-Colophon history as a parking list in the Log. Not a commitment.</li>
+      </ol>
+    </div>
+    <div>
+      <h3>The 30-day rule</h3>
+      <ul class="trigger-list">
+        <li>Explained an old choice to someone <span class="arrow">→</span> <b>Decision</b></li>
+        <li>Made a new design choice <span class="arrow">→</span> <b>Decision</b></li>
+        <li>Fixed a bug docs would have prevented <span class="arrow">→</span> <b>Runbook</b></li>
+        <li>Spent time investigating something <span class="arrow">→</span> <b>Log</b></li>
+        <li>Shipped something <span class="arrow">→</span> <b>Changelog</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NOTES ══ -->
+<section class="sheet notes">
+  <p class="chapter-mark">Notes &amp; queries</p>
+  <h2>Anticipated objections.</h2>
+
+  <details>
+    <summary>Is this just ADRs with extra steps?</summary>
+    <p>No — Decisions are one of five types. The Brief, Log, Runbook, and
+    Changelog each fill a role that Decisions alone do not. The synthesis is
+    the method.</p>
+  </details>
+  <details>
+    <summary>Doesn't the optional Spec break the "five files" promise?</summary>
+    <p>The five core files stand for the default case. The Spec is an opt-in
+    extension for the genuine minority — prototypes exploring many
+    capabilities, or contracts that formally require a specification.</p>
+  </details>
+  <details>
+    <summary>How is this different from Diátaxis?</summary>
+    <p>Different scope. Diátaxis organises <em>user-facing</em> documentation;
+    Colophon organises <em>project-internal</em> documentation — what
+    developers and their future selves rely on. Use both if you need both.</p>
+  </details>
+  <details>
+    <summary>I work solo — do I need this?</summary>
+    <p>Especially then. Future-you is the most forgetful colleague you will
+    ever have. A minimal setup costs ten minutes and pays off the first time
+    you return after a month away.</p>
+  </details>
+  <details>
+    <summary>What if my stakeholders demand a formal project plan?</summary>
+    <p>Show them the coverage table above — every section has a home. If a
+    separate deliverable is still required, write it as an export from
+    Colophon, not instead of it.</p>
+  </details>
+</section>
+
+<!-- ══ THE COLOPHON ══ -->
+<footer class="book-colophon">
+  <p class="fleuron" aria-hidden="true">❦</p>
+  <h2>Colophon</h2>
+  <p>This page is set in <a href="https://fonts.google.com/specimen/Fraunces">Fraunces</a>,
+  <a href="https://fonts.google.com/specimen/Newsreader">Newsreader</a>, and
+  <a href="https://www.jetbrains.com/lp/mono/">JetBrains&nbsp;Mono</a>, on paper
+  <code>#FBF8F1</code> with rubricated ink <code>#91231C</code>.</p>
+  <p>It is a single static HTML file: no JavaScript, no build step, no trackers,
+  no analytics, no third-party requests. The methodology text is licensed
+  <a href="https://creativecommons.org/licenses/by/4.0/">CC&nbsp;BY&nbsp;4.0</a>;
+  the template repository under
+  <a href="https://github.com/Craft-Code-Systems/colophon/blob/main/LICENSE">MIT</a>.</p>
+  <div class="colophon-links">
+    <a href="https://github.com/Craft-Code-Systems/colophon">Template repository</a>
+    <a href="https://github.com/Craft-Code-Systems/colophon/tree/main/docs">Full documentation</a>
+    <a href="https://github.com/Craft-Code-Systems/colophon/issues">Errata</a>
+  </div>
+  <p class="edition">v0.3.1 · Fourth printing · Craft Code Systems</p>
+</footer>
 
 </body>
 </html>

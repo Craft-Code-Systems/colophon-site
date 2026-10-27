@@ -698,6 +698,23 @@ p + p{ margin-top: 1.1em; }
     capabilities, or contracts that formally require a specification.</p>
   </details>
   <details>
+    <summary>Can I have an overview page or dashboard?</summary>
+    <p>Yes — generated, never written. A page that CI builds from the
+    Colophon files, git history, and the issue tracker is tooling, not a
+    seventh document: nobody edits it, and deleting it loses nothing. A
+    reference generator ships in
+    <a href="https://github.com/Craft-Code-Systems/colophon/tree/main/templates/overview"><code>templates/overview/</code></a>;
+    the rules are in
+    <a href="https://github.com/Craft-Code-Systems/colophon/blob/main/docs/adr/0006-generated-views.md">Decision&nbsp;0006</a>.</p>
+  </details>
+  <details>
+    <summary>Can an AI agent keep the docs up to date?</summary>
+    <p>It can propose changes the way a colleague would: as a pull request
+    to the files themselves. What it should not do is keep its own account
+    of the project on a separate page — a generated "on track" that the
+    Brief does not support is worse than no summary at all.</p>
+  </details>
+  <details>
     <summary>How is this different from Diátaxis?</summary>
     <p>Different scope. Diátaxis organises <em>user-facing</em> documentation;
     Colophon organises <em>project-internal</em> documentation — what
